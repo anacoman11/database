@@ -47,6 +47,6 @@
 > **Note:** The **username** and the **public ip address** you should take from the compute instance that you created.
 
 ## Acknowledgements
-- **Author** - Ana Coman, Database Product Management, June 2024
-- **Contributors** - Ana Coman, Database Product Management, June 2024
-- **Last Updated By/Date** - June 2024
+- **Author** - Ana Coman, Database Product Management, July 2024
+- **Contributors** - Ana Coman, Database Product Management, July 2024
+- **Last Updated By/Date** - July 2024

@@ -1,4 +1,4 @@
-## Lab 5: Implement and Optimize Vector Indexes:
+## Lab 5: Implement and Optimize Vector Indexes
 
 
 ## Task 1: Create an in-memory neighbor graph vector index (docs_hnsw_idx) on doc_chunks

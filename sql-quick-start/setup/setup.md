@@ -11,6 +11,7 @@ Estimated Time: 10 minutes
 1. Install Python
 
     ```
+    <copy>
     sudo yum install libffi-devel openssl openssl-devel tk-devel xz-devel zlib-devel bzip2-devel readline-devel libuuid-devel ncurses-devel libaio
     mkdir -p $HOME/python
     wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz
@@ -19,110 +20,143 @@ Estimated Time: 10 minutes
     ./configure --prefix=$HOME/python
     make clean; make
     make altinstall
+    </copy>
     ```
-  ![install-python](images/install-python.png)
+
+  ![install-packages](images/install-packages.png)  
+
+  ![install-python](images/install-python.png)  
+
 
 2. Set variables **PYTHONHOME**, **PATH**, and **LD_LIBRARY_PATH**:
 
 
     ```
+    <copy>
     export PYTHONHOME=$HOME/python
     export PATH=$PYTHONHOME/bin:$PATH
     export LD_LIBRARY_PATH=$PYTHONHOME/lib:$LD_LIBRARY_PATH
+    </copy>
     ```
 
-    ![Image alt text](images/sample1.png)
+    ![set-variables](images/set-variables.png)
 
 
 3. Create **symlimk** for python3 and pip3:
 
-  ```
-  cd $HOME/python/bin
-  ln -s python3.12 python3
-  ln -s pip3.12 pip3
-   ```
+    ```
+    <copy>
+    cd $HOME/python/bin
+    ln -s python3.12 python3
+    ln -s pip3.12 pip3
+    </copy>
+    ```
+    ![create-simlin](images/set-variables.png)
 
 ## Task 2: Configure Oracle Instant Client
 
 1. Install Oracle Instant client if you will be exporting embedded models to the database from Python. If you will be exporting to a file, skip steps 4 and 5 and see the note under environment variables in step 6:
 
-  ```
-  cd $HOME
-  wget https://download.oracle.com/otn_software/linux/instantclient/2340000/instantclient-basic-linux.x64-23.4.0.24.05.zip
-  unzip instantclient-basic-linux.x64-23.4.0.24.05.zip
-   ```
+    ```
+    <copy>
+    cd $HOME
+    wget https://download.oracle.com/otn_software/linux/instantclient/2340000/instantclient-basic-linux.x64-23.4.0.24.05.zip
+    unzip instantclient-  basic-linux.x64-23.4.0.24.05.zip
+    </copy>
+    ```
+    ![install-oracle-instant](images/install-oracle-instant.png)
 
 2. Set variable **LD_LIBRARY_PATH**:
 
-  ```
-  export LD_LIBRARY_PATH=$HOME/instantclient_23_4:$LD_LIBRARY_PATH
-  ```
+    ```
+    <copy>
+    export LD_LIBRARY_PATH=$HOME/instantclient_23_4:$LD_LIBRARY_PATH
+    </copy>
+    ```
+  ![set-variable](images/set-variable.png)
+
 
 3. Create an environment file, for example, env.sh, that defines the Python and Oracle Instant client environment variables and source these environment variables before each OML4Py client session. Alternatively, add the environment variable definitions to .bashrc so they are defined when the user logs into their Linux machine.
 
     ```
+    <copy>
     export PYTHONHOME=$HOME/python
     export PATH=$PYTHONHOME/bin:$PATH
     export LD_LIBRARY_PATH=$PYTHONHOME/lib:$LD_LIBRARY_PATH
+    </copy>
     ```
+    ![create-env-file](images/create-env-file.png)
 
 4. Create a file named requirements.txt that contains the required thid-party packages listed below.
 
-	```
-  --extra-index-url https://download.pytorch.org/whl/cpu
-  pandas==2.1.1
-  setuptools==68.0.0
-  scipy==1.12.0
-  matplotlib==3.8.4
-  oracledb==2.0.1
-  scikit-learn==1.4.1post1
-  numpy==1.26.4
-  onnxruntime==1.17.0
-  onnxruntime-extensions==0.10.1
-  onnx==1.16.0
-  torch==2.2.0+cpu
-  transformers==4.38.1
-  sentencepiece==0.2.0
-  ```
+    ```
+    <copy>
+    --extra-index-url https://download.pytorch.org/whl/cpu
+    pandas==2.1.1
+    setuptools==68.0.0
+    scipy==1.12.0
+    matplotlib==3.8.4
+    oracledb==2.0.1
+    scikit-learn==1.4.1post1
+    numpy==1.26.4
+    onnxruntime==1.17.0
+    onnxruntime-extensions==0.10.1
+    onnx==1.16.0
+    torch==2.2.0+cpu
+    transformers==4.38.1
+    sentencepiece==0.2.0
+    </copy>
+    ```
+    ![create-requirements-file](images/create-requirements-file.png)
 
 
 5. Upgrade pip3 and install the packages listed in requirements.txt
 
-	```
-  pip3 install --upgrade pip
-  pip3 install -r requirements.txt
-  ```
+    ```
+    <copy>
+    pip3 install --upgrade pip
+    pip3 install -r requirements.txt
+    </copy>
+    ```
+
+    ![upgrade-packages](images/upgrade-packages.png)
 
 ## Task 3: Install OML4Py client
 
 
 1. Download [Oracle Machine Learning for Python (OML4Py)](https://www.oracle.com/database/technologies/oml4py-downloads.html) page and upload it to the Linux machine.
 
-	```
-  unzip oml4py-client-linux-x86_64-2.0.zip
-  pip3 install client/oml-2.0-cp312-cp312-linux_x86_64.whl
-	```
+    ```
+    <copy>
+    unzip oml4py-client-linux-x86_64-2.0.zip
+    pip3 install client/oml-2.0-cp312-cp312-linux_x86_64.whl
+    </copy>
+    ```
+    ![download-oml4py](images/download-oml4py.png)
 
 
 2. Get a list of all preconfigured models. Start Python and import EmbeddingModelConfig from oml.utils.
 
-	```
-  python3
-  from oml.utils import EmbeddingModelConfig
-  EmbeddingModelConfig.show_preconfigured()
-	```
+    ```
+    <copy>
+    python3
+    from oml.utils import EmbeddingModelConfig
+    EmbeddingModelConfig.show_preconfigured()
+    </copy>
+    ```
+    ![list-preconfigured-models](images/list-preconfigured-models.png)
 
-	```
-  ['sentence-transformers/all-mpnet-base-v2', 'sentence-transformers/all-MiniLM-L6-v2',
-      'sentence-transformers/multi-qa-MiniLM-L6-cos-v1', 'ProsusAI/finbert',
-      'medicalai/ClinicalBERT', 'sentence-transformers/distiluse-base-multilingual-cased-v2',
-      'sentence-transformers/all-MiniLM-L12-v2', 'BAAI/bge-small-en-v1.5', 'BAAI/bge-base-en-v1.5',
-      'taylorAI/bge-micro-v2', 'intfloat/e5-small-v2', 'intfloat/e5-base-v2', 'prajjwal1/bert-tiny',
-      'thenlper/gte-base', 'thenlper/gte-small', 'TaylorAI/gte-tiny', 'infgrad/stella-base-en-v2',
-      'sentence-transformers/paraphrase-multilingual-mpnet-base-v2',
-      'intfloat/multilingual-e5-base', 'intfloat/multilingual-e5-small',
-      'sentence-transformers/stsb-xlm-r-multilingual']
-  ```
+    ```
+    ['sentence-transformers/all-mpnet-base-v2', 'sentence-transformers/all-MiniLM-L6-v2',
+        'sentence-transformers/multi-qa-MiniLM-L6-cos-v1', 'ProsusAI/finbert',
+        'medicalai/ClinicalBERT', 'sentence-transformers/distiluse-base-multilingual-cased-v2',
+        'sentence-transformers/all-MiniLM-L12-v2', 'BAAI/bge-small-en-v1.5', 'BAAI/bge-base-en-v1.5',
+        'taylorAI/bge-micro-v2', 'intfloat/e5-small-v2', 'intfloat/e5-base-v2', 'prajjwal1/bert-tiny',
+        'thenlper/gte-base', 'thenlper/gte-small', 'TaylorAI/gte-tiny', 'infgrad/stella-base-en-v2',
+        'sentence-transformers/paraphrase-multilingual-mpnet-base-v2',
+        'intfloat/multilingual-e5-base', 'intfloat/multilingual-e5-small',
+        'sentence-transformers/stsb-xlm-r-multilingual']
+    ```
 
 3. Choose from:
 
@@ -131,50 +165,62 @@ Estimated Time: 10 minutes
 
 Export a preconfigured embedding model to a local file. Import EmbeddingModel from oml.utils.
 
-	```
-  from oml.utils import EmbeddingModel
-	```
+    ```
+    <copy>
+    from oml.utils import EmbeddingModel
+    </copy>
+    ```
 
-  ```
-  # Export to file
-  em = EmbeddingModel(model_name="sentence-transformers/all-MiniLM-L6-v2")
-  em.export2file("all-MiniLM-L6-v2", output_dir=".")
-	```
+    ```
+    <copy>
+    # Export to file
+    em = EmbeddingModel(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    em.export2file("all-MiniLM-L6-v2", output_dir=".")
+    </copy>
+    ```
+  ![export-file](images/export-file.png)
+
 
 4. Export a preconfigured embedding model to the database. If using a database connection to update to match your credentials and database environment.
 
-	```
-  # Import oml library and EmbeddingModel from oml.utils
-  import oml
-  from oml.utils import EmbeddingModel
+    ```
+    <copy>
+    # Import oml library and EmbeddingModel from oml.utils
+    import oml
+    from oml.utils import EmbeddingModel
 
-  # Set embedded mode to false for Oracle Database on premises. This is not supported or required for Oracle Autonomous Database.
-  oml.core.methods.__embed__ = False
+    # Set embedded mode to false for Oracle Database on premises. This is not supported or required for Oracle Autonomous Database.
+    oml.core.methods.__embed__ = False
 
-  # Create a database connection.
+    # Create a database connection.
 
-  # Oracle Database on-premises
-  oml.connect("<user>", "<password>", port=<port number> host="<hostname>", service_name="<service name>")
+    # Oracle Database on-premises
+    oml.connect("<user>", "<password>", port=<port number> host="<hostname>", service_name="<service name>")
 
-  # Oracle Autonomous Database
-  oml.connect(user="<user>", password="<password>", dsn="myadb_low")
+    # Oracle Autonomous Database
+    oml.connect(user="<user>", password="<password>", dsn="myadb_low")
 
-  em = EmbeddingModel(model_name="sentence-transformers/all-MiniLM-L6-v2")
-  em.export2db("ALL_MINILM_L6")
-  ```
+    em = EmbeddingModel(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    em.export2db("ALL_MINILM_L6")
+    </copy>
+    ```
 
 > **Note:** To ensure step 12 works properly, complete steps 4 and 5 first.
 
 5. Verify the model exists using SQL:
 
 
-  ```
-  sqlplus $USER/pass@PDBNAME;
-  ```
+    ```
+    <copy>
+    sqlplus $USER/pass@PDBNAME;
+    </copy>
+    ```
 
-  ```
-  select model_name, algorithm, mining_function from user_mining_models where  model_name='ALL_MINILM_L6';
-  ```
+    ```
+    <copy>
+    select model_name, algorithm, mining_function from user_mining_models where  model_name='ALL_MINILM_L6';
+    </copy>
+    ```
 
   ```
   ---------------------------------------------------------------------------
